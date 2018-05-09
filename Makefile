@@ -8,18 +8,18 @@
 all: client server
 
 client:
-	make -C ./client
+	make -C ./irc_client
 
 server:
-	make -C ./server
+	make -C ./irc_server
 
 clean:
-	make -C ./client clean
-	make -C ./server clean
+	make -C ./irc_client clean
+	make -C ./irc_server clean
 
 fclean:
-	make -C ./client fclean
-	make -C ./server fclean
+	make -C ./irc_client fclean
+	make -C ./irc_server fclean
 
 re: fclean all
 

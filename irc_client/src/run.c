@@ -23,15 +23,24 @@ static void	client_irc(int fd)
 {
 	char	buff[1024] = {0};
 	int	r = 0;
+	FILE	*stream = fdopen(fd, "rw");
+	char	*line = NULL;
+	size_t	len = 0;
+	fd_set	rfds;
+	struct timeval	tv = {20, 0};
 
 	while (1) {
-		while ((r = read(fd, buff, 1024)) > 0) {
-			buff[r] = '\0';
-			printf("%s", buff);
+		FD_SET(0, &rfds);
+		FD_SET(fd, &rfds);
+		if (select(fd + 1, &rfds, NULL, NULL, &tv) == -1)
+			die("select: %s", strerror(errno));
+		if (FD_ISSET(0, &rfds)) {
+			getline(&line, &len, stdin);
+			dprintf(fd, "%s", line);
 		}
-		while ((r = read(0, buff, 1024)) > 0) {
-			buff[r] = '\0';
-			dprintf(fd, "%s", buff);
+		if (FD_ISSET(fd, &rfds)) {
+			getline(&line, &len, stream);
+			printf("%s", line);
 		}
 	}
 }
