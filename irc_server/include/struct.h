@@ -19,3 +19,9 @@ typedef struct s_env
 	int	port;
 	char	*nickname[MAX_FD];
 }		t_env;
+
+typedef struct s_op
+{
+	char	*cmd;
+	void	(*fcn)(const char *, t_env *, const int);
+}		t_op;
