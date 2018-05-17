@@ -30,7 +30,7 @@ void	add_client(t_env *e, int s)
 	e->fd_type[cs] = FD_CLIENT;
 	e->fct_read[cs] = client_read;
 	e->fct_write[cs] = NULL;
-	dprintf(cs, "001 MYIRC\r\n");
+	dprintf(cs, "001 Welcome to my irc server!\r\n");
 }
 
 void	server_read(t_env *e, int fd)

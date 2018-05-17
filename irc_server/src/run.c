@@ -20,7 +20,7 @@
 
 void	run_server(int port)
 {
-	t_env		e = {{FD_FREE}, {NULL}, {NULL}, port, {NULL}};
+	t_env		e = {{FD_FREE}, {NULL}, {NULL}, port, {NULL}, 0};
 	int		fd_max = 0;
 	fd_set		fd_read;
 	struct timeval	tv = {20, 0};

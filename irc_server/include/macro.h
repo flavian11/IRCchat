@@ -13,4 +13,8 @@
 
 #define MAX_FD 255
 
+#define MAX_CHAN 10
+
+#define MAX_USERS 25
+
 #define USAGE "USAGE: %s port"

@@ -15,6 +15,8 @@
 t_op	op_tab[] = {
 	{"QUIT", &quit_cmd},
 	{"NICK", &nick_cmd},
+	{"JOIN", &join_cmd},
+	{"PART", &part_cmd},
 	{0, 0}
 };
 
@@ -41,7 +43,6 @@ static void	parse_line(const char *line, t_env *e, const int fd)
 
 void	client_read(t_env *e, int fd)
 {
-	int	r;
 	char	*line = NULL;
 	size_t	len = 0;
 	FILE	*stream = fdopen(fd, "rw");
