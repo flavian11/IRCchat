@@ -7,4 +7,4 @@
 
 #pragma once
 
-#define USAGE "USAGE: %s ip port"
+#define USAGE "USAGE: %s ip port nickname"

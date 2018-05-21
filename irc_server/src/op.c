@@ -31,7 +31,7 @@ void	nick_cmd(const char *line, t_env *e, const int fd)
 	for (int i = 0; i < MAX_FD; i++) {
 		if (e->nickname[i]) {
 			if (strcmp(e->nickname[i], opts) == 0) {
-				dprintf(fd, "ERR_NICKCOLLISION\r\n");
+				dprintf(fd, "436 ERR_NICKCOLLISION\r\n");
 				return ;
 			}
 		}
@@ -39,7 +39,7 @@ void	nick_cmd(const char *line, t_env *e, const int fd)
 	if (!e->nickname[fd])
 		printf("welcome to %s !\n", opts);
 	else
-		printf("%s change his nickname into %s", e->nickname[fd], opts);
+		printf("%s change his nickname into %s\n", e->nickname[fd], opts);
 	e->nickname[fd] = opts;
 }
 
@@ -74,15 +74,15 @@ void	join_cmd(const char *line, t_env *e, const int fd)
 	for (int i = 0; i < MAX_CHAN; i++)
 		if (strcmp(e->channel.chan_name[i], opts) == 0)
 			i_chan = i;
-	for (int x = 0; e->channel.users[i_chan][x] != NULL; x++)
-		i_name = x;
+	while (e->channel.users[i_chan][i_name] != NULL)
+		i_name++;
 	e->channel.users[i_chan][i_name] = e->nickname[fd];
 	dprintf(fd, "332 %s: ?\r\n", opts);
-	dprintf(fd, "352 %s: ", opts);
+	dprintf(fd, "352 %s:", opts);
 	for (int y = 0; y < MAX_USERS; y++)
 		if (e->channel.users[i_chan][y] != NULL)
-			dprintf(fd, "@+%s", e->channel.users[i_chan][y]);
-	dprintf(fd, "\r\n366 %s:End of NAMES list", opts);
+			dprintf(fd, " @+%s", e->channel.users[i_chan][y]);
+	dprintf(fd, "\r\n366 %s:End of NAMES list\r\n", opts);
 }
 
 void	part_cmd(const char *line, t_env *e, const int fd)
@@ -104,4 +104,16 @@ void	part_cmd(const char *line, t_env *e, const int fd)
 			return ;
 		}
 	e->channel.users[i_chan][i_name] = NULL;
+}
+
+void	list_cmd(const char *line, t_env *e, const int fd)
+{
+	char	*opts = get_opts(line);
+
+	if (strcmp(opts, "") == 0) {
+		dprintf(fd, "321 RPL_LISTSTART\r\n");
+		for (int i = 0; i < MAX_CHAN; i++)
+			dprintf(fd, "322 RPL_LIST %s\r\n", str_tab[i]);
+		dprintf(fd, "323 RPL_LISTEND\r\n");
+	}
 }

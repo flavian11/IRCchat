@@ -5,6 +5,8 @@
 ** client read
 */
 
+#include <stdbool.h>
+
 #include <stdio.h>
 #include <string.h>
 
@@ -17,14 +19,36 @@ t_op	op_tab[] = {
 	{"NICK", &nick_cmd},
 	{"JOIN", &join_cmd},
 	{"PART", &part_cmd},
+	{"LIST", &list_cmd},
 	{0, 0}
 };
 
+static bool	is_on_chan(const char *nick, const char *nick2, t_env *e)
+{
+	int	check = 0;
+
+	for (int i = 0; i < MAX_CHAN; i++) {
+		for (int y = 0; y < MAX_USERS; y++) {
+			if (e->channel.users[i][y] != NULL
+			&& (strcmp(e->channel.users[i][y], nick) == 0
+			|| strcmp(e->channel.users[i][y], nick2) == 0))
+				check++;
+		}
+		if (check == 2)
+			return true;
+		check = 0;
+	}
+	return false;
+}
+
 static void	send_message(t_env *e, const char *line)
 {
+	char	*nick = get_nick(line);
+
 	for (int i = 0; i < MAX_FD; i++) {
-		if (e->fd_type[i] == FD_CLIENT)
-			dprintf(i, "%s: %s\n", e->nickname[i], line);
+		if (e->fd_type[i] == FD_CLIENT && strcmp(e->nickname[i], nick) != 0
+		    && is_on_chan(nick, e->nickname[i], e))
+			dprintf(i, "%s", line);
 	}
 }
 

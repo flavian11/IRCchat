@@ -19,7 +19,9 @@ SRC     =       ./src/
 
 SRCS    =       $(SRC)main.c \
 		$(SRC)die.c \
-		$(SRC)run.c
+		$(SRC)run.c \
+		$(SRC)string_handling.c \
+		$(SRC)op.c
 
 OBJ     =       $(SRCS:.c=.o)
 

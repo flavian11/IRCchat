@@ -18,16 +18,41 @@
 #include <string.h>
 
 #include "proto.h"
+#include "struct.h"
+
+op_t	op_tab[] = {
+	{"/nick", &nick_handling},
+	{"/list", &list_handling},
+	{"/quit", &quit_handling},
+	{"/join", &join_handling},
+	{"/part", &part_handling},
+	{0, 0}
+};
+
+static void	parse_line(const char *line, const int fd)
+{
+	char	*cmd;
+
+	if (line[0] == '/') {
+		cmd = get_cmd(line);
+		for (int i = 0; op_tab[i].cmd != NULL; i++) {
+			if (strcmp(cmd, op_tab[i].cmd) == 0) {
+				op_tab[i].fcn(fd, line);
+				break ;
+			}
+		}
+	}
+	else
+		dprintf(fd, "%s: %s\r\n", g_nickname, line);
+}
 
 static void	client_irc(int fd)
 {
-	char	buff[1024] = {0};
-	int	r = 0;
 	FILE	*stream = fdopen(fd, "rw");
 	char	*line = NULL;
 	size_t	len = 0;
 	fd_set	rfds;
-	struct timeval	tv = {20, 0};
+	struct timeval	tv = {2, 0};
 
 	while (1) {
 		FD_SET(0, &rfds);
@@ -36,7 +61,7 @@ static void	client_irc(int fd)
 			die("select: %s", strerror(errno));
 		if (FD_ISSET(0, &rfds)) {
 			getline(&line, &len, stdin);
-			dprintf(fd, "%s", line);
+			parse_line(line, fd);
 		}
 		if (FD_ISSET(fd, &rfds)) {
 			getline(&line, &len, stream);
@@ -63,6 +88,7 @@ void	run_client(char *ip, int port)
 		close(fd);
 		die("connect: %s", strerror(errno));
 	}
+	dprintf(fd, "NICK %s\r\n", g_nickname);
 	client_irc(fd);
 	close(fd);
 }

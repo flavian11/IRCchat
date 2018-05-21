@@ -19,7 +19,9 @@ void	quit_cmd(__attribute__((unused)) const char *, __attribute__((unused)) t_en
 void	nick_cmd(const char *, t_env *, const int);
 void	join_cmd(const char *, t_env *, const int);
 void	part_cmd(const char *, t_env *, const int);
+void	list_cmd(const char *, t_env *, const int);
 
 /* string handling */
 char    *get_cmd(const char *);
 char    *get_opts(const char *);
+char	*get_nick(const char *);

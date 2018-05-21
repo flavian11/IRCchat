@@ -32,3 +32,5 @@ typedef struct s_op
 	char	*cmd;
 	void	(*fcn)(const char *, t_env *, const int);
 }		t_op;
+
+char	*str_tab[MAX_CHAN];
