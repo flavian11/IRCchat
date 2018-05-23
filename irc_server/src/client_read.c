@@ -74,6 +74,7 @@ void	client_read(t_env *e, int fd)
 	FILE	*stream = fdopen(fd, "rw");
 
 	getline(&line, &len, stream);
-	printf("line: '%s'\n", line);
+	if (strcmp(line, "") != 0)
+		printf("line: '%s'\n", line);
 	parse_line(line, e, fd);
 }
