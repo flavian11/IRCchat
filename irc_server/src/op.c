@@ -81,7 +81,7 @@ void	join_cmd(const char *line, t_env *e, const int fd)
 		i_name++;
 	e->channel.users[i_chan][i_name] = e->nickname[fd];
 	dprintf(fd, "332 %s: ?\r\n", opts);
-	dprintf(fd, "352 %s:", opts);
+	dprintf(fd, "353 %s:", opts);
 	for (int y = 0; y < MAX_USERS; y++)
 		if (e->channel.users[i_chan][y] != NULL)
 			dprintf(fd, " @+%s", e->channel.users[i_chan][y]);
