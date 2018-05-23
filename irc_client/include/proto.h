@@ -20,3 +20,5 @@ void	list_handling(const int, const char *);
 void	quit_handling(const int, const char *);
 void	join_handling(const int, const char *);
 void	part_handling(const int, const char *);
+void	users_handling(const int, const char *);
+void	names_handling(const int, const char *);

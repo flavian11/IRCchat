@@ -47,3 +47,15 @@ void	part_handling(const int fd, const char *line)
 
 	dprintf(fd, "PART %s\r\n", opts);
 }
+
+void	users_handling(const int fd, __attribute__((unused)) const char *line)
+{
+	dprintf(fd, "USERS\r\n");
+}
+
+void	names_handling(const int fd, const char *line)
+{
+	char	*opts = get_opts(line);
+
+	dprintf(fd, "NAMES %s\r\n", opts);
+}

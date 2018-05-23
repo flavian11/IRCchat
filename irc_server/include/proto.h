@@ -20,6 +20,8 @@ void	nick_cmd(const char *, t_env *, const int);
 void	join_cmd(const char *, t_env *, const int);
 void	part_cmd(const char *, t_env *, const int);
 void	list_cmd(const char *, t_env *, const int);
+void	users_cmd(const char *, t_env *, const int);
+void	names_cmd(const char *, t_env *, const int);
 
 /* string handling */
 char    *get_cmd(const char *);

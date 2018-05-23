@@ -20,6 +20,8 @@ t_op	op_tab[] = {
 	{"JOIN", &join_cmd},
 	{"PART", &part_cmd},
 	{"LIST", &list_cmd},
+	{"USERS", &users_cmd},
+	{"NAMES", &names_cmd},
 	{0, 0}
 };
 

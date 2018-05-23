@@ -26,6 +26,8 @@ op_t	op_tab[] = {
 	{"/quit", &quit_handling},
 	{"/join", &join_handling},
 	{"/part", &part_handling},
+	{"/users", &users_handling},
+	{"/names", &names_handling},
 	{0, 0}
 };
 
