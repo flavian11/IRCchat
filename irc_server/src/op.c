@@ -43,7 +43,7 @@ void	nick_cmd(const char *line, t_env *e, const int fd)
 	e->nickname[fd] = opts;
 }
 
-static int check_error_join(t_env *e, const int fd, const char *opts)
+static int check_error_join(t_env *e, const int fd, char *opts)
 {
 	int	i_chan = -1;
 
@@ -52,13 +52,16 @@ static int check_error_join(t_env *e, const int fd, const char *opts)
 		return 1;
 	}
 	for (int i = 0; i < MAX_CHAN; i++)
-		if (strcmp(e->channel.chan_name[i], opts) == 0) {
+		if (e->channel.chan_name[i] != NULL && strcmp(e->channel.chan_name[i], opts) == 0) {
 			i_chan = i;
 			break ;
 		}
 	if (i_chan == -1) {
-		dprintf(fd, "403 %s: No such channel\r\n", opts);
-		return 1;
+		for (int y = 0; y < MAX_CHAN; y++)
+			if (e->channel.chan_name[y] == NULL) {
+				e->channel.chan_name[y] = strdup(opts);
+				break ;
+			}
 	}
 	return 0;
 }
@@ -72,7 +75,7 @@ void	join_cmd(const char *line, t_env *e, const int fd)
 	if (check_error_join(e, fd, opts) != 0)
 		return;
 	for (int i = 0; i < MAX_CHAN; i++)
-		if (strcmp(e->channel.chan_name[i], opts) == 0)
+		if (e->channel.chan_name[i] != NULL && strcmp(e->channel.chan_name[i], opts) == 0)
 			i_chan = i;
 	while (e->channel.users[i_chan][i_name] != NULL)
 		i_name++;
@@ -94,7 +97,7 @@ void	part_cmd(const char *line, t_env *e, const int fd)
 	if (check_error_join(e, fd, opts) != 0)
 		return;
 	for (int i = 0; i < MAX_CHAN; i++)
-		if (strcmp(e->channel.chan_name[i], opts) == 0)
+		if (e->channel.chan_name[i] != NULL && strcmp(e->channel.chan_name[i], opts) == 0)
 			i_chan = i;
 	for (int x = 0; strcmp(e->channel.users[i_chan][x], e->nickname[fd]) != 0 && x < MAX_USERS; x++)
 		i_name = x;

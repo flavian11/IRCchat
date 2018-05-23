@@ -21,19 +21,6 @@
 #include "proto.h"
 #include "macro.h"
 
-char	*str_tab[MAX_CHAN] = {
-	"lolilol",
-	"test",
-	"chan3",
-	"chan4",
-	"chan5",
-	"chan6",
-	"chan7",
-	"chan8",
-	"chan9",
-	"chan10"
-};
-
 void	add_client(t_env *e, int s)
 {
 	int			cs;
@@ -53,15 +40,6 @@ void	server_read(t_env *e, int fd)
 	add_client(e, fd);
 }
 
-static t_chan	init_chan()
-{
-	t_chan	chan = {0};
-
-	for (int i = 0; i < MAX_CHAN; i++)
-		chan.chan_name[i] = str_tab[i];
-	return chan;
-}
-
 void	add_server(t_env *e)
 {
 	int			s;
@@ -79,7 +57,6 @@ void	add_server(t_env *e)
 	e->fd_type[s] = FD_SERVER;
 	e->fct_read[s] = server_read;
 	e->fct_write[s] = NULL;
-	e->channel = init_chan();
 }
 
 int	main(int ac, char **av)

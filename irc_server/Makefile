@@ -28,7 +28,7 @@ OBJ     =       $(SRCS:.c=.o)
 
 NAME    =       ../server
 
-CFLAGS  +=      -I ./include -W -Wextra -Wall
+CFLAGS  +=      -I ./include -W -Wextra -Wall -g
 
 all:    $(NAME)
 

@@ -5,6 +5,7 @@
 ** op handling
 */
 
+#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -32,6 +33,7 @@ void	list_handling(const int fd, const char *line)
 void	quit_handling(const int fd, __attribute__((unused)) const char *line)
 {
 	dprintf(fd, "QUIT\r\n");
+	exit(0);
 }
 
 void	join_handling(const int fd, const char *line)
