@@ -15,7 +15,7 @@
 #include "macro.h"
 
 void	quit_cmd(__attribute__((unused)) const char *line,
-		__attribute__((unused)) t_env *e,
+		t_env *e,
 		const int fd)
 {
 	e->fd_type[fd] = FD_FREE;

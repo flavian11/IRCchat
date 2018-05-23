@@ -5,6 +5,8 @@
 ** client read
 */
 
+#include <errno.h>
+
 #include <stdbool.h>
 
 #include <stdio.h>
@@ -69,12 +71,14 @@ static void	parse_line(const char *line, t_env *e, const int fd)
 
 void	client_read(t_env *e, int fd)
 {
-	char	*line = NULL;
+	char	line[1024] = {0};
 	size_t	len = 0;
-	FILE	*stream = fdopen(fd, "rw");
+	FILE	*stream = fdopen(fd, "r");
 
-	getline(&line, &len, stream);
-	if (strcmp(line, "") != 0)
-		printf("line: '%s'\n", line);
+	if (stream == NULL)
+		die("fdopen: %s", strerror(errno));
+	fgets(line, 1024, stream);
+//	if (strcmp(line, "") != 0)
+//	printf("line: '%s'\n", line);
 	parse_line(line, e, fd);
 }
