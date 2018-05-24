@@ -50,7 +50,7 @@ static void	send_message(t_env *e, const char *line)
 	char	*nick = get_nick(line);
 
 	for (int i = 0; i < MAX_FD; i++) {
-		if (e->fd_type[i] == FD_CLIENT && strcmp(e->nickname[i], nick) != 0
+		if (e->fd_type[i] == FD_CLIENT && e->nickname[i] != NULL && strcmp(e->nickname[i], nick) != 0
 		    && is_on_chan(nick, e->nickname[i], e))
 			dprintf(i, "%s", line);
 	}

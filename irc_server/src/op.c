@@ -15,13 +15,17 @@
 #include "macro.h"
 
 void	quit_cmd(__attribute__((unused)) const char *line,
-		t_env *e,
-		const int fd)
+		 t_env *e,
+		 const int fd)
 {
 	e->fd_type[fd] = FD_FREE;
 	free(e->nickname[fd]);
 	e->nickname[fd] = NULL;
 	close(fd);
+	for (int x = 0; x < MAX_FD; x++) {
+		if (e->fd_type[x] == FD_CLIENT)
+			dprintf(x, "%s", line);
+	}
 }
 
 void	nick_cmd(const char *line, t_env *e, const int fd)
@@ -84,6 +88,10 @@ void	join_cmd(const char *line, t_env *e, const int fd)
 	while (e->channel.users[i_chan][i_name] != NULL)
 		i_name++;
 	e->channel.users[i_chan][i_name] = e->nickname[fd];
+	for (int x = 0; x < MAX_FD; x++) {
+		if (e->fd_type[x] == FD_CLIENT)
+			dprintf(x, "%s", line);
+	}
 	dprintf(fd, "332 %s: ?\r\n", opts);
 	dprintf(fd, "353 %s:", opts);
 	for (int y = 0; y < MAX_USERS; y++)
@@ -110,6 +118,10 @@ void	part_cmd(const char *line, t_env *e, const int fd)
 			dprintf(fd, "442 %s:You're not on that channel\r\n", opts);
 			return ;
 		}
+	for (int y = 0; y < MAX_FD; y++) {
+		if (e->fd_type[y] == FD_CLIENT)
+			dprintf(y, "%s", line);
+	}
 	e->channel.users[i_chan][i_name] = NULL;
 }
 
