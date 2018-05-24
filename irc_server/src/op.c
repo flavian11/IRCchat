@@ -36,6 +36,10 @@ void	nick_cmd(const char *line, t_env *e, const int fd)
 			}
 		}
 	}
+	for (int x = 0; x < MAX_FD; x++) {
+		if (e->fd_type[x] == FD_CLIENT)
+			dprintf(fd, "%s", line);
+	}
 	if (!e->nickname[fd])
 		printf("welcome to %s !\n", opts);
 	else
