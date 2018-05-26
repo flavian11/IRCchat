@@ -17,15 +17,27 @@ RM      =       rm -f
 
 SRC     =       ./src/
 
+TEST	=	./tests/
+
 SRCS    =       $(SRC)main.c \
 		$(SRC)die.c \
 		$(SRC)run.c \
 		$(SRC)string_handling.c \
 		$(SRC)op.c
 
+TESTS	=	$(SRC)die.c \
+		$(SRC)run.c \
+		$(SRC)string_handling.c \
+		$(SRC)op.c \
+		$(TEST)tests-get_cmd.c
+
 OBJ     =       $(SRCS:.c=.o)
 
+OBJTEST	=	$(TESTS:.c=.o)
+
 NAME    =       ../client
+
+NAME_TEST	=	./criterion
 
 CFLAGS  +=      -I ./include -W -Wextra -Wall
 
@@ -38,11 +50,19 @@ clean:
 	@$(RM) $(OBJ)
 	@$(RM) $(SRCS:.c=.c~)
 	@$(RM) $(SRCS:.c=.c#)
+	@$(RM) $(OBJTEST)
+	@$(RM) $(TESTS:.c=.c~)
+	@$(RM) $(TESTS:.c=.c#)
 
 fclean: clean
 	@$(RM) $(NAME)
+	@$(RM) $(NAME_TEST)
 
 re: fclean all
+
+tests_run:	$(OBJTEST)
+	$(CC) $(OBJTEST) -o $(NAME_TEST) -lcriterion -coverage
+	$(NAME_TEST) --verbose
 
 .c.o:
 	@gcc $(CFLAGS) -c $< -o $@ && \

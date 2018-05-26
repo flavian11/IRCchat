@@ -35,7 +35,7 @@ static int check_error_join(t_env *e, const int fd, char *opts)
 	return 0;
 }
 
-void	send_cmd(t_env *e, const char *line)
+static void	send_cmd(t_env *e, const char *line)
 {
 	for (int y = 0; y < MAX_FD; y++) {
 		if (e->fd_type[y] == FD_CLIENT)

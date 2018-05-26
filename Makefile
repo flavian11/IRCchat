@@ -23,4 +23,8 @@ fclean:
 
 re: fclean all
 
+tests_run:
+	make -C ./irc_server tests_run
+	make -C ./irc_client tests_run
+
 .PHONY: all client server clean fclean
