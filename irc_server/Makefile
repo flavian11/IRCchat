@@ -22,7 +22,9 @@ SRCS    =       $(SRC)main.c \
 		$(SRC)die.c \
 		$(SRC)client_read.c \
 		$(SRC)op.c \
-		$(SRC)string_handling.c
+		$(SRC)string_handling.c \
+		$(SRC)add_clt_srv.c \
+		$(SRC)channel.c
 
 OBJ     =       $(SRCS:.c=.o)
 

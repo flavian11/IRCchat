@@ -9,7 +9,7 @@
 
 #include "struct.h"
 
-void	run_server(int);
+void	run_server(int, int);
 void	die(const char *, ...);
 void	add_server(t_env *);
 void	client_read(t_env *, int);

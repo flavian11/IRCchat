@@ -18,14 +18,12 @@
 #include "macro.h"
 #include "proto.h"
 
-void	run_server(int port)
+void	run_server(int port, int fd_max)
 {
 	t_env		e = {{FD_FREE}, {NULL}, {NULL}, port, {NULL}, 0};
-	int		fd_max = 0;
 	fd_set		fd_read;
 	struct timeval	tv = {20, 0};
 
-	e.port = port;
 	add_server(&e);
 	while (1) {
 		FD_ZERO(&fd_read);

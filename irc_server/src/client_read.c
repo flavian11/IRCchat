@@ -50,8 +50,9 @@ static void	send_message(t_env *e, const char *line)
 	char	*nick = get_nick(line);
 
 	for (int i = 0; i < MAX_FD; i++) {
-		if (e->fd_type[i] == FD_CLIENT && e->nickname[i] != NULL && strcmp(e->nickname[i], nick) != 0
-		    && is_on_chan(nick, e->nickname[i], e))
+		if (e->fd_type[i] == FD_CLIENT && e->nickname[i] != NULL
+		&& strcmp(e->nickname[i], nick) != 0
+		&& is_on_chan(nick, e->nickname[i], e))
 			dprintf(i, "%s", line);
 	}
 }
@@ -61,7 +62,7 @@ static void	parse_line(const char *line, t_env *e, const int fd)
 	char	*cmd = get_cmd(line);
 	int	i = 0;
 
-	while(op_tab[i].cmd != NULL && strcmp(op_tab[i].cmd, cmd) != 0)
+	while (op_tab[i].cmd != NULL && strcmp(op_tab[i].cmd, cmd) != 0)
 		i++;
 	if (op_tab[i].cmd != NULL)
 		op_tab[i].fcn(line, e, fd);
@@ -72,13 +73,10 @@ static void	parse_line(const char *line, t_env *e, const int fd)
 void	client_read(t_env *e, int fd)
 {
 	char	line[1024] = {0};
-	size_t	len = 0;
 	FILE	*stream = fdopen(fd, "r");
 
 	if (stream == NULL)
 		die("fdopen: %s", strerror(errno));
 	fgets(line, 1024, stream);
-//	if (strcmp(line, "") != 0)
-//	printf("line: '%s'\n", line);
 	parse_line(line, e, fd);
 }
