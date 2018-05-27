@@ -61,3 +61,10 @@ void	names_handling(const int fd, const char *line)
 
 	dprintf(fd, "NAMES %s\r\n", opts);
 }
+
+void	msg_handling(const int fd, const char *line)
+{
+	char	*opts = get_opts(line);
+
+	dprintf(fd, "PRIVMSG %s\r\n", opts);
+}

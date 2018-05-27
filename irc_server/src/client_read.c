@@ -24,6 +24,7 @@ t_op	op_tab[] = {
 	{"LIST", &list_cmd},
 	{"USERS", &users_cmd},
 	{"NAMES", &names_cmd},
+	{"PRIVMSG", &priv_cmd},
 	{0, 0}
 };
 
@@ -78,5 +79,6 @@ void	client_read(t_env *e, int fd)
 	if (stream == NULL)
 		die("fdopen: %s", strerror(errno));
 	fgets(line, 1024, stream);
+	printf("line: '%s'\n", line);
 	parse_line(line, e, fd);
 }

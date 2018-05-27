@@ -5,6 +5,8 @@
 ** handle commands
 */
 
+#include <errno.h>
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -94,4 +96,18 @@ void	names_cmd(const char *line, t_env *e, const int fd)
 		if (e->channel.users[i_chan][i] != NULL)
 			dprintf(fd, " @+%s", e->channel.users[i_chan][i]);
 	dprintf(fd, "\r\n366 RPL_ENDOFNAMES\r\n");
+}
+
+void	priv_cmd(const char *line, t_env *e, __attribute__((unused)) const int fd)
+{
+	char	*opts = get_opts(line);
+
+	for (int i = 0; i < MAX_FD; i++) {
+		if (e->nickname[i] != NULL 
+			&& strncmp(opts, e->nickname[i],
+			strlen(e->nickname[i])) == 0)
+			dprintf(i, "\033[37m%s:\033[0m %s\r\n",
+				e->nickname[fd],
+				&opts[strlen(e->nickname[i]) + 1]);
+	}
 }

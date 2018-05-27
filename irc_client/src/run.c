@@ -28,6 +28,7 @@ op_t	op_tab[] = {
 	{"/part", &part_handling},
 	{"/users", &users_handling},
 	{"/names", &names_handling},
+	{"/msg", &msg_handling},
 	{0, 0}
 };
 

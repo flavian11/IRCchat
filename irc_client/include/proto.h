@@ -22,3 +22,4 @@ void	join_handling(const int, const char *);
 void	part_handling(const int, const char *);
 void	users_handling(const int, const char *);
 void	names_handling(const int, const char *);
+void	msg_handling(const int, const char *);

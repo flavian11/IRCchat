@@ -47,7 +47,7 @@ NAME    =       ../server
 
 NAME_TEST	=	./criterion
 
-CFLAGS  +=      -I ./include -W -Wextra -Wall -g
+CFLAGS  +=      -I ./include -Wextra
 
 all:    $(NAME)
 
